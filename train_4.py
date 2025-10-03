@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
+from lion_pytorch import Lion
 from torch.utils.data import DataLoader
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, classification_report
@@ -227,14 +227,11 @@ def main():
     # Base learning rate untuk ViT fine-tuning
     base_lr = learning_rate * 0.1
     
-    # AdamW optimizer dengan weight decay
-    optimizer = optim.AdamW(
-        filter(lambda p: p.requires_grad, model.parameters()),
-        lr=base_lr,
-        betas=(0.9, 0.999),
-        eps=1e-8,
-        weight_decay=0.01  # L2 regularization
-    )
+    optimizer = Lion(
+    filter(lambda p: p.requires_grad, model.parameters()),
+    lr=base_lr / 3,      # Gunakan learning rate 3x lebih kecil dari AdamW
+    weight_decay=0.1     # Gunakan weight decay 10x lebih besar dari AdamW
+)
     
     # Learning rate scheduler setup
     num_training_steps = len(train_loader) * num_epochs
