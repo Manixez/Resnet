@@ -1,0 +1,88 @@
+BASELINE PERFORMA - PLAIN34 ARCHITECTURE
+================================================================================
+
+1. KONFIGURASI MODEL
+-------------------
+- Arsitektur: Plain34 (ResNet34-like tanpa skip connections)
+- Input size: 224x224x3
+- Output classes: 5
+- Total parameters: 21,287,237
+- Trainable parameters: 21,287,237
+
+2. HYPERPARAMETERS
+-----------------
+- Batch size: 32
+- Learning rate: 0.001
+- Epochs: 25
+- Weight decay: 0.01
+- Gradient clipping: 1.0
+- Scheduler: Cosine with warmup (2 epochs)
+
+3. PERFORMA AKHIR
+----------------
+Final Validation Metrics:
+- Accuracy:  0.7928 (79.28%)
+- F1-Score:  0.7910 (79.10%)
+- Precision: 0.7931 (79.31%)
+- Recall:    0.7928 (79.28%)
+
+4. PERFORMA PER KELAS
+--------------------
+              precision    recall  f1-score   support
+       bakso       0.76      0.80      0.78        44
+   gado_gado       0.76      0.65      0.70        43
+ nasi_goreng       0.91      0.85      0.88        47
+     rendang       0.81      0.93      0.87        46
+   soto_ayam       0.71      0.71      0.71        42
+
+5. METRIK SELAMA TRAINING
+------------------------
+Epoch  | Train Loss | Train Acc | Val Loss | Val Acc
+-------|------------|-----------|----------|----------
+1      | 1.6143    | 0.2302    | 1.7050   | 0.2027
+5      | 1.3527    | 0.4153    | 1.9151   | 0.4009
+10     | 0.9150    | 0.6535    | 1.3966   | 0.4640
+15     | 0.7031    | 0.7415    | 1.1538   | 0.5405
+20     | 0.5511    | 0.8070    | 0.7290   | 0.7477
+25     | 0.4979    | 0.8409    | 0.6699   | 0.7928
+
+6. OBSERVASI KUNCI
+-----------------
+1. Training Progress:
+   - Loss training menurun secara konsisten dari 1.61 ke 0.50
+   - Akurasi training meningkat dari 23.02% ke 84.09%
+   - Gap antara training dan validation accuracy relatif kecil di akhir
+
+2. Validasi Progress:
+   - Loss validasi menurun dari 1.70 ke 0.67
+   - Akurasi validasi meningkat dari 20.27% ke 79.28%
+   - Model mencapai performa terbaik di epoch terakhir
+
+3. Kekuatan:
+   - Performa sangat baik pada kelas 'nasi_goreng' (F1: 0.88)
+   - Performa baik pada kelas 'rendang' (F1: 0.87)
+   - Training stabil tanpa fluktuasi ekstrem
+
+4. Kelemahan:
+   - Performa lebih rendah pada kelas 'gado_gado' (F1: 0.70)
+   - Performa lebih rendah pada kelas 'soto_ayam' (F1: 0.71)
+   - Learning rate mungkin terlalu tinggi di awal (loss tinggi)
+
+7. REKOMENDASI IMPROVEMENT
+------------------------
+1. Data Augmentation:
+   - Tambah variasi augmentasi untuk meningkatkan generalisasi
+   - Fokus pada augmentasi yang relevan dengan kelas berkinerja rendah
+
+2. Arsitektur:
+   - Tambah skip connections (konversi ke ResNet34)
+   - Tambah regularisasi (dropout, batch normalization)
+
+3. Training Strategy:
+   - Turunkan learning rate awal
+   - Tambah early stopping untuk efisiensi
+   - Eksperimen dengan batch size yang berbeda
+
+4. Data:
+   - Tambah data untuk kelas dengan performa rendah
+   - Analisis kesalahan klasifikasi untuk insight lebih lanjut
